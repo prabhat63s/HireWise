@@ -19,7 +19,7 @@ export const generatePDF = (
 
     // Header
     doc.setFontSize(20);
-    doc.text("Technical Interview Assessment Report", 20, 20);
+    doc.text("HireWise: Technical Interview Assessment Report", 20, 20);
 
     // Candidate Info
     doc.setFontSize(12);

@@ -2,8 +2,34 @@
 
 import { useRouter } from 'next/navigation';
 import { useInterviewStore } from '@/store/interviewStore';
-import { motion } from 'framer-motion';
-import { Target, Zap, ChevronRight, Shield, Cpu, Globe } from 'lucide-react';
+import { ArrowRight, FileSearch, GitBranch, LineChart, Check } from 'lucide-react';
+
+const FEATURES = [
+  {
+    icon: FileSearch,
+    title: 'Smart CV screening',
+    desc: 'Upload a CV and HireWise reads it for you: detected role, years of experience and the stack the candidate actually works in.',
+  },
+  {
+    icon: GitBranch,
+    title: 'Adaptive technical questions',
+    desc: 'Questions are generated for the candidate\u2019s language and seniority, so every interview starts at the right difficulty.',
+  },
+  {
+    icon: LineChart,
+    title: 'Clear, comparable feedback',
+    desc: 'Scores, response times and written strengths and growth areas, ready to download as a PDF report.',
+  },
+];
+
+const STACKS = ['Rust', 'Go', 'Python', 'React', 'AWS', 'Kubernetes', 'AI / ML'];
+
+const SAMPLE_OPTIONS = [
+  'Wrap the update in a sync.Mutex',
+  'Increase the channel buffer size',
+  'Call runtime.Gosched() before writing',
+  'Mark the counter as volatile',
+];
 
 export default function WelcomePage() {
   const router = useRouter();
@@ -14,97 +40,92 @@ export default function WelcomePage() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center p-6 relative overflow-hidden">
-      {/* Hero Section */}
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 1 }}
-        className="max-w-6xl w-full text-center space-y-16 relative z-10"
-      >
-        <div className="space-y-8">
-          <motion.div
-            initial={{ y: 20, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            transition={{ delay: 0.2 }}
-            className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-cyan-500/30 bg-cyan-500/5 text-cyan-400 text-xs font-bold tracking-[0.2em] uppercase backdrop-blur-xl"
-          >
-            <Cpu className="w-4 h-4 animate-pulse" />
-            Protocol Status: Active
-          </motion.div>
-
-          <h1 className="text-6xl md:text-7xl font-black tracking-tighter leading-tight">
-            <span className="block text-white">AI-POWERED</span>
-            <span className="text-cyber">INTERVIEWS</span>
+    <div>
+      {/* hero */}
+      <section className="grid w-full items-center gap-14 px-6 py-16 md:px-10 md:py-24 lg:grid-cols-[1.1fr_1fr]">
+        <div className="rise">
+          <p className="mb-5 text-sm font-medium text-accent">Engineering hiring, automated</p>
+          <h1 className="font-display text-5xl font-semibold leading-[1.02] tracking-tight md:text-7xl">
+            Next-gen hiring starts here.
           </h1>
-
-          <p className="text-base md:text-lg text-gray-500 max-w-2xl mx-auto leading-relaxed font-medium">
-            Master your next technical interview with
-            <span className="text-gray-300"> M37 Labs&apos; intelligent simulation engine.</span>
+          <p className="mt-6 max-w-xl text-lg leading-relaxed text-muted">
+            From smart CV screening to adaptive technical questions that react to candidates in real
+            time, HireWise automates the hardest parts of engineering recruitment.
           </p>
-        </div>
 
-        {/* Action Area */}
-        <div className="flex flex-col items-center gap-8">
-          <motion.button
-            whileHover={{ scale: 1.02, letterSpacing: "0.05em" }}
-            whileTap={{ scale: 0.98 }}
-            onClick={handleStart}
-            className="group relative px-10 py-5 bg-white text-black font-black text-lg rounded-xl overflow-hidden transition-all glow-primary"
-          >
-            <div className="absolute inset-0 bg-linear-to-r from-cyan-400 to-purple-500 opacity-0 group-hover:opacity-100 transition-opacity" />
-            <span className="relative z-10 flex items-center gap-3">
-              START MOCK INTERVIEW
-              <ChevronRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-            </span>
-          </motion.button>
-
-          <div className="flex items-center gap-6 text-gray-600 text-[10px] font-bold tracking-widest uppercase">
-            <span className="flex items-center gap-2"><Shield className="w-3.5 h-3.5" /> Secure</span>
-            <span className="w-1 h-1 bg-gray-800 rounded-full" />
-            <span className="flex items-center gap-2"><Globe className="w-3.5 h-3.5" /> Global Standards</span>
+          <div className="mt-9 flex flex-wrap items-center gap-5">
+            <button onClick={handleStart} className="btn-primary h-12 cursor-pointer px-6 text-base">
+              Start an interview
+              <ArrowRight className="h-4 w-4" />
+            </button>
+            <span className="text-sm text-muted">Takes about 15 minutes</span>
           </div>
         </div>
 
-        {/* Feature Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-24">
-          {[
-            { icon: Cpu, title: "Smart CV Analysis", desc: "Our AI parses your background to tailor questions specifically to your experience.", color: "cyan" },
-            { icon: Target, title: "Dynamic Questioning", desc: "Experience an adaptive interview that evolves based on your real-time responses.", color: "purple" },
-            { icon: Zap, title: "Deep Insights", desc: "Receive comprehensive feedback on your technical depth and communication skills.", color: "pink" }
-          ].map((feature, idx) => (
-            <motion.div
-              key={idx}
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.5 + idx * 0.1 }}
-              className="neural-glass p-10 rounded-3xl text-left group hover:border-cyan-500/50 transition-all relative overflow-hidden"
-            >
-              {/* Glossy Shine Effect */}
-              <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none">
-                <div className="absolute inset-0 bg-linear-to-tr from-transparent via-white/5 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000 ease-in-out" />
-              </div>
+        {/* sample question */}
+        <div className="rise lg:justify-self-end" style={{ animationDelay: '0.12s' }}>
+          <div className="w-full max-w-xl rounded-2xl border border-line/10 bg-surface p-6 shadow-[0_30px_60px_-30px_rgba(0,0,0,0.8)] md:p-8">
+            <div className="flex items-center justify-between text-sm">
+              <span className="text-muted">
+                Question <span className="tabular-nums text-ink">4</span> of 10
+              </span>
+              <span className="rounded-full bg-accent/15 px-2.5 py-0.5 text-xs font-medium text-accent">Sample</span>
+            </div>
+            <div className="mt-3 h-1 overflow-hidden rounded-full bg-line/10">
+              <div className="h-full w-[40%] rounded-full bg-accent" />
+            </div>
 
-              <div className={`w-12 h-12 mb-8 flex items-center justify-center rounded-2xl bg-${feature.color}-500/10 text-${feature.color}-400 group-hover:scale-110 transition-transform`}>
-                <feature.icon className="w-6 h-6" />
-              </div>
-              <h3 className="text-xl font-bold mb-4 text-white">{feature.title}</h3>
-              <p className="text-gray-500 text-sm leading-relaxed group-hover:text-gray-400 transition-colors">{feature.desc}</p>
-            </motion.div>
+            <p className="mt-6 font-display text-xl font-medium leading-snug">
+              Two goroutines increment a shared counter and the final value is sometimes wrong. What is the safest fix?
+            </p>
+
+            <ul className="mt-5 space-y-2.5">
+              {SAMPLE_OPTIONS.map((opt, i) => (
+                <li
+                  key={opt}
+                  className={`flex items-center gap-3 rounded-lg border px-4 py-3 text-sm ${
+                    i === 0 ? 'border-accent/70 bg-accent/10 text-ink' : 'border-line/10 text-muted'
+                  }`}
+                >
+                  <span
+                    className={`flex h-4 w-4 shrink-0 items-center justify-center rounded-full border ${
+                      i === 0 ? 'border-accent bg-accent text-accent-ink' : 'border-line/25'
+                    }`}
+                  >
+                    {i === 0 && <Check className="h-3 w-3" strokeWidth={3} />}
+                  </span>
+                  {opt}
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      {/* features */}
+      <section className="border-t border-line/10">
+        <div className="grid w-full gap-px bg-line/10 md:grid-cols-3">
+          {FEATURES.map((f) => (
+            <div key={f.title} className="bg-bg px-6 py-10 md:px-10">
+              <f.icon className="mb-5 h-5 w-5 text-accent" />
+              <h3 className="font-display text-xl font-semibold">{f.title}</h3>
+              <p className="mt-2 max-w-sm text-sm leading-relaxed text-muted">{f.desc}</p>
+            </div>
           ))}
         </div>
+      </section>
 
-        {/* Footer Info */}
-        <div className="pt-20 border-t border-white/5">
-          <div className="flex flex-wrap justify-center gap-4">
-            {["RUST", "GO", "PYTHON", "REACT", "AWS", "K8S", "AI/ML"].map((tech) => (
-              <span key={tech} className="px-6 py-2 rounded-full border border-white/5 text-[10px] font-black tracking-widest text-gray-600 hover:text-cyan-400 hover:border-cyan-500/30 transition-all cursor-default">
-                {tech}
-              </span>
-            ))}
-          </div>
-        </div>
-      </motion.div>
+      {/* stacks */}
+      <section className="border-t border-line/10 px-6 py-10 md:px-10">
+        <p className="mb-4 text-sm text-muted">Question sets for</p>
+        <ul className="flex flex-wrap gap-2">
+          {STACKS.map((s) => (
+            <li key={s} className="rounded-md border border-line/10 px-3 py-1.5 text-sm text-muted">
+              {s}
+            </li>
+          ))}
+        </ul>
+      </section>
     </div>
   );
 }

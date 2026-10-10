@@ -1,19 +1,19 @@
-# Interview.ai
+# HireWise
 
-A premium, AI-powered technical assessment engine designed to redefine how engineering teams evaluate talent and how candidates prepare for their next big role. Built with a focus on high-end aesthetics and intelligent automation.
+**Next-gen hiring starts here.** From smart CV screening to adaptive technical questions that react to candidates in real time, HireWise automates the hardest parts of engineering recruitment.
 
 ## ✨ Key Features
 
 - **Smart CV Analysis**: Automatically parses professional backgrounds to tailor interview questions specifically to a candidate's experience.
 - **Dynamic Questioning**: An adaptive interview engine that evolves in real-time based on candidate responses.
 - **Deep Performance Insights**: Comprehensive feedback loops covering technical depth, communication skills, and role-fit analysis.
-- **Premium UI/UX**: A state-of-the-art interface featuring glassmorphism, smooth micro-animations, and a sleek dark mode.
+- **Premium UI/UX**: A focused dark interface with a coral accent, clear typography and flat, readable surfaces.
 - **Identity Verification**: Integrated profile validation steps to ensure data integrity.
 
 ## 🛠️ Tech Stack
 
 - **Framework**: [Next.js 15](https://nextjs.org/) (App Router)
-- **Styling**: Tailwind CSS with custom glassmorphism utilities
+- **Styling**: Tailwind CSS 4
 - **Animations**: [Framer Motion](https://www.framer.com/motion/)
 - **State Management**: [Zustand](https://github.com/pmndrs/zustand) with persistence
 - **AI Engine**: OpenAI gpt-5-mini-2025-08-07
@@ -33,8 +33,8 @@ A premium, AI-powered technical assessment engine designed to redefine how engin
 1. **Clone the repository**
 
    ```bash
-   git clone https://github.com/your-repo/ai-interview-demo.git
-   cd ai-interview-demo
+   git clone https://github.com/prabhat63s/HireWise.git
+   cd HireWise
    ```
 
 2. **Install dependencies**

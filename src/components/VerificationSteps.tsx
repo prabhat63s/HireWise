@@ -1,7 +1,6 @@
 'use client';
 
-import { motion } from 'framer-motion';
-import { CheckCircle2, Circle, Loader2, ShieldCheck } from 'lucide-react';
+import { Check, Loader2 } from 'lucide-react';
 import { useState, useEffect } from 'react';
 
 const STEPS = [
@@ -26,48 +25,32 @@ export default function VerificationSteps({ onComplete }: { onComplete: () => vo
     }, [currentStep, onComplete]);
 
     return (
-        <div className="space-y-8">
-            <div className="flex items-center gap-4">
-                <div className="w-10 h-10 bg-cyan-500/10 rounded-xl flex items-center justify-center text-cyan-400">
-                    <ShieldCheck className="w-5 h-5" />
-                </div>
-                <div className="space-y-1">
-                    <h3 className="text-lg font-bold text-white">Profile Analysis</h3>
-                    <p className="text-[10px] font-black text-gray-600 uppercase tracking-widest">AI-Powered Profile Review</p>
-                </div>
-            </div>
+        <section className="rounded-2xl border border-line/10 bg-surface p-6">
+            <h3 className="font-display text-lg font-semibold">Profile analysis</h3>
+            <p className="mt-0.5 text-sm text-muted">Reviewing your CV before the interview.</p>
 
-            <div className="grid grid-cols-1 gap-3">
+            <ol className="mt-5 space-y-3">
                 {STEPS.map((step, index) => (
-                    <motion.div
-                        key={index}
-                        initial={{ opacity: 0, x: -10 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        transition={{ delay: index * 0.1 }}
-                        className={`flex items-center gap-4 p-5 rounded-xl border transition-all duration-500
-                            ${index < currentStep ? 'bg-cyan-500/5 border-cyan-500/20' :
-                                index === currentStep ? 'bg-white/5 border-white/10' :
-                                    'bg-transparent border-transparent opacity-30'}
-                        `}
-                    >
-                        <div className="shrink-0">
+                    <li key={step} className="flex items-center gap-3 text-sm">
+                        <span
+                            className={`flex h-5 w-5 shrink-0 items-center justify-center rounded-full border ${index < currentStep
+                                ? 'border-good bg-good text-bg'
+                                : index === currentStep
+                                    ? 'border-accent text-accent'
+                                    : 'border-line/20 text-transparent'
+                                }`}
+                        >
                             {index < currentStep ? (
-                                <CheckCircle2 className="w-5 h-5 text-cyan-500" />
+                                <Check className="h-3 w-3" strokeWidth={3} />
                             ) : index === currentStep ? (
-                                <Loader2 className="w-5 h-5 text-cyan-400 animate-spin" />
-                            ) : (
-                                <Circle className="w-5 h-5 text-gray-800" />
-                            )}
-                        </div>
-                        <span className={`text-sm font-bold ${index <= currentStep ? "text-gray-300" : "text-gray-700"}`}>
-                            {step}
+                                <Loader2 className="h-3 w-3 animate-spin" />
+                            ) : null}
                         </span>
-                        {index < currentStep && (
-                            <span className="ml-auto text-[8px] font-black text-cyan-400 uppercase tracking-widest">Verified</span>
-                        )}
-                    </motion.div>
+                        <span className={index <= currentStep ? 'text-ink' : 'text-muted/60'}>{step}</span>
+                        {index < currentStep && <span className="ml-auto text-xs text-good">Done</span>}
+                    </li>
                 ))}
-            </div>
-        </div>
+            </ol>
+        </section>
     );
 }

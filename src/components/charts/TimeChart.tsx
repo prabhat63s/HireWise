@@ -7,44 +7,38 @@ export default function TimeChart({ times }: { times: number[] }) {
     return (
         <ResponsiveContainer width="100%" height="100%">
             <BarChart data={data} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
-                <defs>
-                    <linearGradient id="barGradient" x1="0" y1="0" x2="0" y2="1">
-                        <stop offset="0%" stopColor="#00f0ff" stopOpacity={0.8} />
-                        <stop offset="100%" stopColor="#bf00ff" stopOpacity={0.2} />
-                    </linearGradient>
-                </defs>
-                <CartesianGrid strokeDasharray="3 3" stroke="#ffffff05" vertical={false} />
+                <CartesianGrid strokeDasharray="3 3" stroke="#ffffff12" vertical={false} />
                 <XAxis
                     dataKey="name"
-                    stroke="#ffffff20"
-                    tick={{ fill: '#ffffff40', fontSize: 10, fontWeight: 900 }}
+                    tick={{ fill: '#9a9a94', fontSize: 12 }}
                     axisLine={false}
                     tickLine={false}
                 />
                 <YAxis
-                    stroke="#ffffff20"
-                    tick={{ fill: '#ffffff40', fontSize: 10, fontWeight: 900 }}
+                    tick={{ fill: '#9a9a94', fontSize: 12 }}
                     axisLine={false}
                     tickLine={false}
+                    unit="s"
                 />
                 <Tooltip
-                    cursor={{ fill: '#ffffff03' }}
+                    cursor={{ fill: '#ffffff08' }}
                     contentStyle={{
-                        backgroundColor: 'rgba(5, 5, 5, 0.9)',
-                        border: '1px solid rgba(255, 255, 255, 0.05)',
-                        borderRadius: '20px',
-                        backdropFilter: 'blur(20px)',
-                        boxShadow: '0 20px 40px rgba(0, 0, 0, 0.5)',
-                        padding: '16px'
+                        backgroundColor: '#202022',
+                        border: '1px solid rgba(255, 255, 255, 0.12)',
+                        borderRadius: '8px',
+                        boxShadow: '0 12px 30px rgba(0, 0, 0, 0.5)',
+                        padding: '10px 12px',
+                        color: '#ededea',
+                        fontSize: '13px'
                     }}
-                    itemStyle={{ color: '#00f0ff', fontWeight: '900', fontSize: '12px', textTransform: 'uppercase' }}
+                    itemStyle={{ color: '#ff7a45', fontSize: '13px' }}
                 />
                 <Bar
                     dataKey="time"
-                    fill="url(#barGradient)"
-                    radius={[8, 8, 0, 0]}
-                    name="LATENCY"
-                    animationDuration={2000}
+                    fill="#ff7a45"
+                    radius={[4, 4, 0, 0]}
+                    name="Time (s)"
+                    animationDuration={800}
                 />
             </BarChart>
         </ResponsiveContainer>

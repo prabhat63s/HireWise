@@ -3,61 +3,46 @@ import { PieChart as RePieChart, Pie, Cell, Tooltip, ResponsiveContainer, Legend
 
 export default function PieChart({ correct, incorrect }: { correct: number, incorrect: number }) {
     const data = [
-        { name: 'SUCCESS', value: correct },
-        { name: 'FAILURE', value: incorrect },
+        { name: 'Correct', value: correct },
+        { name: 'Incorrect', value: incorrect },
     ];
-    const COLORS = ['#00f0ff', '#ff007a'];
+    const COLORS = ['#5fd08a', '#f2736b'];
 
     return (
         <ResponsiveContainer width="100%" height="100%">
             <RePieChart>
-                <defs>
-                    <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
-                        <feGaussianBlur in="SourceAlpha" stdDeviation="5" result="blur" />
-                        <feOffset dx="0" dy="0" result="offsetblur" />
-                        <feFlood floodColor="#00f0ff" floodOpacity="0.3" result="offsetColor" />
-                        <feComposite in="offsetColor" in2="offsetblur" operator="in" result="glow" />
-                        <feMerge>
-                            <feMergeNode in="glow" />
-                            <feMergeNode in="SourceGraphic" />
-                        </feMerge>
-                    </filter>
-                </defs>
                 <Pie
                     data={data}
                     cx="50%"
                     cy="50%"
-                    innerRadius={80}
+                    innerRadius={70}
                     outerRadius={100}
-                    paddingAngle={10}
+                    paddingAngle={4}
                     dataKey="value"
                     stroke="none"
-                    animationBegin={200}
-                    animationDuration={2000}
+                    animationDuration={800}
                 >
                     {data.map((entry, index) => (
-                        <Cell
-                            key={`cell-${index}`}
-                            fill={COLORS[index % COLORS.length]}
-                            style={{ filter: index === 0 ? 'url(#glow)' : 'none' }}
-                        />
+                        <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                     ))}
                 </Pie>
                 <Tooltip
                     contentStyle={{
-                        backgroundColor: 'rgba(5, 5, 5, 0.9)',
-                        border: '1px solid rgba(255, 255, 255, 0.05)',
-                        borderRadius: '20px',
-                        backdropFilter: 'blur(20px)',
-                        boxShadow: '0 20px 40px rgba(0, 0, 0, 0.5)',
-                        padding: '16px'
+                        backgroundColor: '#202022',
+                        border: '1px solid rgba(255, 255, 255, 0.12)',
+                        borderRadius: '8px',
+                        boxShadow: '0 12px 30px rgba(0, 0, 0, 0.5)',
+                        padding: '10px 12px',
+                        color: '#ededea',
+                        fontSize: '13px'
                     }}
+                    itemStyle={{ color: '#ededea', fontSize: '13px' }}
                 />
                 <Legend
                     verticalAlign="bottom"
                     height={36}
                     iconType="circle"
-                    formatter={(value) => <span className="text-gray-600 font-black text-[10px] uppercase tracking-widest ml-2">{value}</span>}
+                    formatter={(value) => <span className="ml-1 text-sm text-muted">{value}</span>}
                 />
             </RePieChart>
         </ResponsiveContainer>
