@@ -6,7 +6,7 @@ import { useRouter } from 'next/navigation';
 import { useInterviewStore } from '@/store/interviewStore';
 import { TECH_ROLES, CTC_RANGES } from '@/lib/constants';
 import VerificationSteps from '@/components/VerificationSteps';
-import { Upload, Check, Loader2, Shield, Cpu, ArrowRight } from 'lucide-react';
+import { Upload, Check, Loader2, ArrowRight } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 interface AnalysisResult {
@@ -75,63 +75,52 @@ export default function ProfilePage() {
     };
 
     return (
-        <div className="min-h-screen p-6 md:p-12 lg:p-24">
-            <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12">
+        <div className="w-full px-6 py-10 md:px-10 md:py-14">
+            <header className="rise mb-10 max-w-2xl">
+                <h1 className="font-display text-4xl font-semibold tracking-tight md:text-5xl">Interview setup</h1>
+                <p className="mt-3 text-muted">
+                    Upload a CV and confirm the details. HireWise uses them to choose the role, stack and difficulty.
+                </p>
+            </header>
+
+            <div className="grid grid-cols-1 items-start gap-8 lg:grid-cols-12">
 
                 {/* Left Column: Data Input & Analysis */}
-                <div className="lg:col-span-7 space-y-12">
-                    <header className="space-y-4">
-                        <motion.div
-                            initial={{ x: -20, opacity: 0 }}
-                            animate={{ x: 0, opacity: 1 }}
-                            className="flex items-center gap-2 text-cyan-400 text-xs font-black tracking-widest uppercase"
-                        >
-                            <Shield className="w-4 h-4" />
-                            Profile Verification
-                        </motion.div>
-                        <h1 className="text-4xl font-black tracking-tighter text-white">
-                            INTERVIEW <span className="text-cyber">SETUP</span>
-                        </h1>
-                    </header>
-
+                <div className="space-y-6 lg:col-span-7">
                     {/* Upload Zone */}
-                    <div className="relative group">
-                        <div className="absolute -inset-1 bg-linear-to-r from-cyan-500 to-purple-600 rounded-3xl blur opacity-10 group-hover:opacity-20 transition duration-1000" />
-                        <div
-                            {...getRootProps()}
-                            className={`relative neural-glass rounded-3xl p-12 border-2 border-dashed transition-all cursor-pointer overflow-hidden
-                                ${isDragActive ? 'border-cyan-500 bg-cyan-500/5' : 'border-white/5 hover:border-white/20'}
-                                ${file ? 'border-solid border-cyan-500/50' : ''}
-                            `}
-                        >
-                            <input {...getInputProps()} />
+                    <div
+                        {...getRootProps()}
+                        className={`relative cursor-pointer overflow-hidden rounded-2xl border border-dashed bg-surface p-10 transition-colors
+                            ${isDragActive ? 'border-accent bg-accent/5' : 'border-line/20 hover:border-line/40'}
+                            ${file ? 'border-solid border-line/20' : ''}
+                        `}
+                    >
+                        <input {...getInputProps()} aria-label="Upload CV" />
 
-                            {/* Scanning Animation */}
-                            {isAnalyzing && (
-                                <motion.div
-                                    initial={{ top: 0 }}
-                                    animate={{ top: '100%' }}
-                                    transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
-                                    className="absolute left-0 right-0 h-1 bg-cyan-500 shadow-[0_0_15px_rgba(0,240,255,0.5)] z-20"
-                                />
-                            )}
+                        {isAnalyzing && (
+                            <motion.div
+                                initial={{ top: 0 }}
+                                animate={{ top: '100%' }}
+                                transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
+                                className="absolute left-0 right-0 z-20 h-px bg-accent"
+                            />
+                        )}
 
-                            <div className="flex flex-col items-center text-center space-y-6">
-                                <div className={`w-16 h-16 rounded-2xl flex items-center justify-center transition-all
-                                    ${file ? 'bg-cyan-500/20 text-cyan-400' : 'bg-white/5 text-gray-500'}
-                                `}>
-                                    {isAnalyzing ? <Loader2 className="w-8 h-8 animate-spin" /> :
-                                        file ? <Check className="w-8 h-8" /> : <Upload className="w-8 h-8" />}
-                                </div>
+                        <div className="flex items-center gap-5">
+                            <div className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-full border
+                                ${file && !isAnalyzing ? 'border-good/40 bg-good/10 text-good' : 'border-line/15 text-muted'}
+                            `}>
+                                {isAnalyzing ? <Loader2 className="h-5 w-5 animate-spin" /> :
+                                    file ? <Check className="h-5 w-5" /> : <Upload className="h-5 w-5" />}
+                            </div>
 
-                                <div className="space-y-2">
-                                    <h3 className="text-lg font-bold text-white">
-                                        {file ? file.name : "Upload CV (PDF)"}
-                                    </h3>
-                                    <p className="text-gray-500 text-xs font-medium">
-                                        {isAnalyzing ? "Analyzing your professional profile..." : "PDF format recommended for optimal analysis"}
-                                    </p>
-                                </div>
+                            <div className="min-w-0">
+                                <h3 className="truncate font-medium">
+                                    {file ? file.name : "Upload CV (PDF)"}
+                                </h3>
+                                <p className="mt-0.5 text-sm text-muted">
+                                    {isAnalyzing ? "Analyzing the profile..." : file ? "Click or drop to replace" : "Drag and drop, or click to browse. PDF works best."}
+                                </p>
                             </div>
                         </div>
                     </div>
@@ -139,40 +128,40 @@ export default function ProfilePage() {
                     {/* Analysis Results */}
                     <AnimatePresence>
                         {analysisResult && (
-                            <motion.div
-                                initial={{ opacity: 0, y: 20 }}
+                            <motion.section
+                                initial={{ opacity: 0, y: 12 }}
                                 animate={{ opacity: 1, y: 0 }}
-                                className="neural-glass rounded-3xl p-10 space-y-8"
+                                className="rounded-2xl border border-line/10 bg-surface p-6"
                             >
                                 <div className="flex items-center justify-between">
-                                    <h3 className="text-[10px] font-black tracking-widest text-gray-500 uppercase">Analysis Summary</h3>
-                                    <div className="px-3 py-1 rounded-full bg-cyan-500/10 border border-cyan-500/30 text-cyan-400 text-[10px] font-black">
-                                        MATCH: {(analysisResult.confidence * 100).toFixed(0)}%
-                                    </div>
+                                    <h3 className="font-display text-lg font-semibold">What we found</h3>
+                                    <span className="rounded-full bg-accent/15 px-3 py-1 text-xs font-medium text-accent tabular-nums">
+                                        {(analysisResult.confidence * 100).toFixed(0)}% match
+                                    </span>
                                 </div>
 
-                                <div className="grid grid-cols-2 gap-8">
-                                    <div className="space-y-1">
-                                        <p className="text-[10px] font-black text-gray-600 uppercase tracking-widest">Detected Role</p>
-                                        <p className="text-lg font-bold text-white">{analysisResult.suggested_role}</p>
+                                <dl className="mt-5 grid grid-cols-2 gap-6">
+                                    <div>
+                                        <dt className="text-sm text-muted">Detected role</dt>
+                                        <dd className="mt-1 font-medium">{analysisResult.suggested_role}</dd>
                                     </div>
-                                    <div className="space-y-1">
-                                        <p className="text-[10px] font-black text-gray-600 uppercase tracking-widest">Experience</p>
-                                        <p className="text-lg font-bold text-white">{analysisResult.years_of_experience}</p>
+                                    <div>
+                                        <dt className="text-sm text-muted">Experience</dt>
+                                        <dd className="mt-1 font-medium">{analysisResult.years_of_experience}</dd>
                                     </div>
-                                </div>
+                                </dl>
 
-                                <div className="space-y-4">
-                                    <p className="text-[10px] font-black text-gray-600 uppercase tracking-widest">Technical Stack</p>
-                                    <div className="flex flex-wrap gap-2">
+                                <div className="mt-6">
+                                    <p className="text-sm text-muted">Technical stack</p>
+                                    <div className="mt-2 flex flex-wrap gap-2">
                                         {analysisResult.recommended_languages.map((lang: string) => (
-                                            <span key={lang} className="px-3 py-1.5 rounded-xl bg-white/5 border border-white/10 text-xs font-bold text-gray-300">
+                                            <span key={lang} className="rounded-md border border-line/10 bg-raised px-2.5 py-1 text-sm">
                                                 {lang}
                                             </span>
                                         ))}
                                     </div>
                                 </div>
-                            </motion.div>
+                            </motion.section>
                         )}
                     </AnimatePresence>
 
@@ -184,103 +173,100 @@ export default function ProfilePage() {
 
                 {/* Right Column: Additional Parameters */}
                 <div className="lg:col-span-5">
-                    <div className="sticky top-12 space-y-8">
-                        <form onSubmit={handleFormSubmit} className="neural-glass rounded-3xl p-10 space-y-8">
-                            <div className="space-y-6">
-                                <div className="space-y-2">
-                                    <label className="text-[10px] font-black text-gray-500 uppercase tracking-widest ml-1">Full Name</label>
-                                    <input
-                                        type="text"
-                                        required
-                                        value={candidateInfo?.name || ''}
-                                        onChange={(e) => setCandidateInfo({ ...candidateInfo!, name: e.target.value })}
-                                        className="w-full bg-white/5 border border-white/5 rounded-xl p-4 text-white font-bold outline-none focus:border-cyan-500/50 transition-all"
-                                        placeholder="Candidate Name"
-                                    />
-                                </div>
+                    <div className="space-y-4 lg:sticky lg:top-6">
+                        <form onSubmit={handleFormSubmit} className="space-y-6 rounded-2xl border border-line/10 bg-surface p-6 md:p-8">
+                            <h2 className="font-display text-lg font-semibold">Candidate details</h2>
 
-                                <div className="space-y-2">
-                                    <label className="text-[10px] font-black text-gray-500 uppercase tracking-widest ml-1">Target Role</label>
+                            <div>
+                                <label htmlFor="name" className="label">Full name</label>
+                                <input
+                                    id="name"
+                                    type="text"
+                                    required
+                                    value={candidateInfo?.name || ''}
+                                    onChange={(e) => setCandidateInfo({ ...candidateInfo!, name: e.target.value })}
+                                    className="field"
+                                    placeholder="Candidate name"
+                                />
+                            </div>
+
+                            <div>
+                                <label htmlFor="role" className="label">Target role</label>
+                                <select
+                                    id="role"
+                                    required
+                                    value={candidateInfo?.role || ''}
+                                    onChange={(e) => setCandidateInfo({ ...candidateInfo!, role: e.target.value })}
+                                    className="field"
+                                >
+                                    {Object.keys(TECH_ROLES).map(role => (
+                                        <option key={role} value={role} className="bg-surface">{role}</option>
+                                    ))}
+                                </select>
+                            </div>
+
+                            <div className="grid grid-cols-2 gap-4">
+                                <div>
+                                    <label htmlFor="current-ctc" className="label">Current CTC</label>
                                     <select
+                                        id="current-ctc"
                                         required
-                                        value={candidateInfo?.role || ''}
-                                        onChange={(e) => setCandidateInfo({ ...candidateInfo!, role: e.target.value })}
-                                        className="w-full bg-white/5 border border-white/5 rounded-xl p-4 text-white font-bold outline-none focus:border-cyan-500/50 transition-all appearance-none"
+                                        value={candidateInfo?.currentCTC || ''}
+                                        onChange={(e) => setCandidateInfo({ ...candidateInfo!, currentCTC: e.target.value })}
+                                        className="field"
                                     >
-                                        {Object.keys(TECH_ROLES).map(role => (
-                                            <option key={role} value={role} className="bg-black">{role}</option>
-                                        ))}
+                                        <option value="" className="bg-surface">Select</option>
+                                        {CTC_RANGES.map(range => <option key={range} value={range} className="bg-surface">{range}</option>)}
                                     </select>
                                 </div>
-
-                                <div className="grid grid-cols-2 gap-4">
-                                    <div className="space-y-2">
-                                        <label className="text-[10px] font-black text-gray-500 uppercase tracking-widest ml-1">Current CTC</label>
-                                        <select
-                                            required
-                                            value={candidateInfo?.currentCTC || ''}
-                                            onChange={(e) => setCandidateInfo({ ...candidateInfo!, currentCTC: e.target.value })}
-                                            className="w-full bg-white/5 border border-white/5 rounded-xl p-4 text-white font-bold outline-none focus:border-cyan-500/50 transition-all appearance-none"
-                                        >
-                                            <option value="" className="bg-black">Select</option>
-                                            {CTC_RANGES.map(range => <option key={range} value={range} className="bg-black">{range}</option>)}
-                                        </select>
-                                    </div>
-                                    <div className="space-y-2">
-                                        <label className="text-[10px] font-black text-gray-500 uppercase tracking-widest ml-1">Expected CTC</label>
-                                        <select
-                                            required
-                                            value={candidateInfo?.expectedCTC || ''}
-                                            onChange={(e) => setCandidateInfo({ ...candidateInfo!, expectedCTC: e.target.value })}
-                                            className="w-full bg-white/5 border border-white/5 rounded-xl p-4 text-white font-bold outline-none focus:border-cyan-500/50 transition-all appearance-none"
-                                        >
-                                            <option value="" className="bg-black">Select</option>
-                                            {CTC_RANGES.map(range => <option key={range} value={range} className="bg-black">{range}</option>)}
-                                        </select>
-                                    </div>
+                                <div>
+                                    <label htmlFor="expected-ctc" className="label">Expected CTC</label>
+                                    <select
+                                        id="expected-ctc"
+                                        required
+                                        value={candidateInfo?.expectedCTC || ''}
+                                        onChange={(e) => setCandidateInfo({ ...candidateInfo!, expectedCTC: e.target.value })}
+                                        className="field"
+                                    >
+                                        <option value="" className="bg-surface">Select</option>
+                                        {CTC_RANGES.map(range => <option key={range} value={range} className="bg-surface">{range}</option>)}
+                                    </select>
                                 </div>
+                            </div>
 
-                                <div className="space-y-4">
-                                    <label className="text-[10px] font-black text-gray-500 uppercase tracking-widest ml-1">Relocation Readiness</label>
-                                    <div className="flex gap-4">
-                                        {['Yes', 'No', 'Remote Only'].map((option) => (
-                                            <button
-                                                key={option}
-                                                type="button"
-                                                onClick={() => setCandidateInfo({ ...candidateInfo!, relocation: option })}
-                                                className={`flex-1 py-3 rounded-xl font-bold text-xs transition-all border
-                                                    ${candidateInfo?.relocation === option
-                                                        ? 'bg-cyan-500/10 border-cyan-500/50 text-cyan-400'
-                                                        : 'bg-white/5 border-white/5 text-gray-500 hover:border-white/20'}
-                                                `}
-                                            >
-                                                {option}
-                                            </button>
-                                        ))}
-                                    </div>
+                            <div>
+                                <span className="label">Relocation</span>
+                                <div className="grid grid-cols-3 gap-2">
+                                    {['Yes', 'No', 'Remote Only'].map((option) => (
+                                        <button
+                                            key={option}
+                                            type="button"
+                                            onClick={() => setCandidateInfo({ ...candidateInfo!, relocation: option })}
+                                            aria-pressed={candidateInfo?.relocation === option}
+                                            className={`cursor-pointer rounded-lg border py-2.5 text-sm transition-colors
+                                                ${candidateInfo?.relocation === option
+                                                    ? 'border-accent bg-accent/10 text-ink'
+                                                    : 'border-line/12 text-muted hover:border-line/30 hover:text-ink'}
+                                            `}
+                                        >
+                                            {option}
+                                        </button>
+                                    ))}
                                 </div>
                             </div>
 
                             <button
                                 type="submit"
                                 disabled={!isVerified}
-                                className="w-full py-5 bg-white text-black font-black rounded-xl flex items-center justify-center gap-3 hover:bg-cyan-400 transition-all disabled:opacity-30 disabled:cursor-not-allowed group"
+                                className="btn-primary h-12 w-full cursor-pointer text-base"
                             >
-                                PROCEED TO ASSESSMENT
-                                <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                                Continue to assessment
+                                <ArrowRight className="h-4 w-4" />
                             </button>
+                            {!isVerified && (
+                                <p className="-mt-2 text-center text-xs text-muted">Upload a CV to unlock the next step.</p>
+                            )}
                         </form>
-
-                        <div className="p-8 neural-glass rounded-3xl border border-cyan-500/10">
-                            <div className="flex items-center gap-4 text-cyan-400 mb-4">
-                                <Cpu className="w-5 h-5" />
-                                <h4 className="font-black text-[10px] uppercase tracking-widest">System Note</h4>
-                            </div>
-                            <p className="text-gray-500 text-xs leading-relaxed font-medium">
-                                Our AI analyzes your professional background to create a personalized interview experience.
-                                <span className="text-gray-400"> Ensure your CV is up to date for the most relevant questions.</span>
-                            </p>
-                        </div>
                     </div>
                 </div>
             </div>
